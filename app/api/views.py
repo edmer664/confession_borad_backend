@@ -29,7 +29,7 @@ def make_post(request):
         author=data['author'],
     )
     post.save()
-    return HttpResponse("OK")
+    return redirect(request.META.get('HTTP_REFERER') + '/home')
     
 def get_post(request,post_id):
     post = Post.objects.get(id=post_id)

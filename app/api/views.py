@@ -4,8 +4,11 @@ from api.models import Post
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
+@csrf_exempt
 def get_posts(request):
-    posts = Post.objects.all()
+    # query all posts then sort by date
+    posts = Post.objects.all().order_by('-pub_date')
+    
     json_posts = [{
         'id': post.id,
         'title': post.title,
@@ -14,6 +17,7 @@ def get_posts(request):
         'author': post.author,
         'updated_at': post.updated_at
     } for post in posts]
+    
     return JsonResponse(json_posts, safe=False)
 
 @csrf_exempt
